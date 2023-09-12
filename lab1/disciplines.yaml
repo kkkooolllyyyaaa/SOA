@@ -17,7 +17,7 @@ paths:
         - $ref: '#/components/parameters/LabWorkIdPath'
         - $ref: '#/components/parameters/DisciplineIdPath'
       responses:
-        '200':
+        '204':
           description: |
             Lab successfully added to discipline
         '400':
@@ -35,7 +35,7 @@ paths:
         - $ref: '#/components/parameters/LabWorkIdPath'
         - $ref: '#/components/parameters/DisciplineIdPath'
       responses:
-        '200':
+        '204':
           description: |
             Lab successfully deleted from discipline
         '400':
@@ -70,7 +70,7 @@ components:
     DisciplineIdPath:
       description: Unique identifier of discipline
       in: path
-      name: id
+      name: discipline_id
       schema:
         type: integer
         format: int64
@@ -84,18 +84,48 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            type: object
+            properties:
+              code:
+                type: string
+                example: INTERNAL_SERVER_ERROR
+              message:
+                type: string
+                example: Unable to process request
+            required:
+              - code
+              - message
 
     '400':
       description: Bad request
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            type: object
+            properties:
+              code:
+                type: string
+                example: ILLEGAL_ARGUMENT_PROVIDED
+              message:
+                type: string
+                example: Identifier should be number
+            required:
+              - code
+              - message
 
     '404':
       description: Not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            type: object
+            properties:
+              code:
+                type: string
+                example: LAB_NOT_FOUND
+              message:
+                type: string
+                example: Lab with id=1 not found
+            required:
+              - code
+              - message
