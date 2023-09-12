@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 
 info:
-  title: Disciplines API
+  title: Discipline API
   version: "1.0"
 
 servers:
@@ -12,6 +12,8 @@ paths:
   /discipline/{discipline-id}/labwork/{labwork-id}/add:
     post:
       description: |
+        Add lab work to the discipline
+      summary: |
         Add lab work to the discipline
       parameters:
         - $ref: '#/components/parameters/LabWorkIdPath'
@@ -30,6 +32,8 @@ paths:
   /discipline/{discipline-id}/labwork/{labwork-id}/remove:
     delete:
       description: |
+        Remote lab work from the discipline
+      summary: |
         Remote lab work from the discipline
       parameters:
         - $ref: '#/components/parameters/LabWorkIdPath'

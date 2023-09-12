@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 
 info:
-  title: Labs API
+  title: Lab API
   version: "1.0"
 
 servers:
@@ -12,6 +12,8 @@ paths:
   /api/v1/lab:
     post:
       description: |
+        Request to create new lab work
+      summary: |
         Request to create new lab work
       tags:
         - Lab
@@ -39,6 +41,8 @@ paths:
     get:
       description: |
         Request to get single lab by id
+      summary: |
+        Request to get single lab by id
       tags:
         - Lab
       parameters:
@@ -60,6 +64,8 @@ paths:
 
     put:
       description: |
+        Request to update lab work
+      summary: |
         Request to update lab work
       tags:
         - Lab
@@ -89,6 +95,8 @@ paths:
     delete:
       description: |
         Request to delete lab work
+      summary: |
+        Request to delete lab work
       tags:
         - Lab
       parameters:
@@ -106,6 +114,8 @@ paths:
   /api/v1/lab/searches:
     post:
       description: |
+        Request to create search
+      summary: |
         Request to create search
       tags:
         - Lab
@@ -136,6 +146,8 @@ paths:
     get:
       description: |
         Request to get sum of minimalPoint
+      summary: |
+        Request to get sum of minimalPoint
       tags:
         - Operations
       operationId:
@@ -156,9 +168,11 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /api/v1/lab/minimal-point/by-max-value:
+  /api/v1/lab/minimal-point:
     get:
       description: |
+        Request to get random lab by max minimalPoint value
+      summary: |
         Request to get random lab by max minimalPoint value
       tags:
         - Operations
