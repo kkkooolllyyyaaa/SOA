@@ -1,0 +1,413 @@
+openapi: "3.0.2"
+
+info:
+  title: Labs API
+  version: "1.0"
+
+servers:
+  - url: http://localhost:8080
+    description: local
+
+paths:
+  /v1/lab:
+    post:
+      description: |
+        Request to create new lab work
+      tags:
+        - Lab
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabWorkUpdateDto'
+      responses:
+        '200':
+          description: |
+            Request processed successfully, body contains created lab
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LabWorkResponseDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  /v1/lab/{id}:
+    get:
+      description: |
+        Request to get single lab by id
+      tags:
+        - Lab
+      parameters:
+        - $ref: '#/components/parameters/LabWorkIdPath'
+      responses:
+        '200':
+          description: |
+            Request processed successfully, body contains found lab
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LabWorkResponseDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+    put:
+      description: |
+        Request to update lab work
+      tags:
+        - Lab
+      parameters:
+        - $ref: '#/components/parameters/LabWorkIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabWorkUpdateDto'
+      responses:
+        '200':
+          description: |
+            Request processed successfully, body contains updated lab
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LabWorkResponseDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      description: |
+        Request to delete lab work
+      tags:
+        - Lab
+      parameters:
+        - $ref: '#/components/parameters/LabWorkIdPath'
+      responses:
+        '200':
+          description: |
+            Request processed successfully, lab was deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  /v1/lab/list:
+    get:
+      description: |
+        Request to get list of labs
+      parameters:
+        - $ref: '#/components/parameters/LabWorkSortFields'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: |
+            Request processed successfully, body contains found labs
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LabWorksListResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  /v1/lab/minimal-point/sum:
+    get:
+      description: |
+        Request to get sum of minimalPoint
+      operationId:
+        getSumOfLabsMinimalPoint
+      responses:
+        '200':
+          description: |
+            Request processed successfully, body contains result
+          content:
+            application/json:
+              schema:
+                description: Calculated sum of minimal point
+                type: integer
+                format: int64
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+
+  /v1/lab/minimal-point/random-by-max-value:
+    get:
+      description: |
+        Request to get sum of minimalPoint
+      operationId:
+        getRandomLabWithMaximumMinimalPointValue
+      responses:
+        '200':
+          description: |
+            Request processed successfully, body contains found lab
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LabWorkResponseDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+components:
+  schemas:
+    LabWorkUpdateDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        minimal_point:
+          type: integer
+          minimum: 1
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        author:
+          $ref: '#/components/schemas/Person'
+      required:
+        - name
+        - coordinates
+        - difficulty
+
+    LabWorksListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/LabWorkResponseDto'
+
+    LabWorkResponseDto:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/LabWorkId'
+        name:
+          type: string
+          minLength: 1
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        creation_date:
+          type: string
+          format: date-time
+        minimal_point:
+          type: integer
+          minimum: 1
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        author:
+          $ref: '#/components/schemas/Person'
+      required:
+        - id
+        - name
+        - coordinates
+        - creation_date
+        - difficulty
+
+
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+          format: int64
+        y:
+          type: number
+          format: double
+          maximum: 395
+      required:
+        - y
+
+
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        birthday:
+          type: string
+          format: date-time
+        eye_color:
+          $ref: '#/components/schemas/Color'
+        hair_color:
+          $ref: '#/components/schemas/Color'
+        nationality:
+          $ref: '#/components/schemas/Country'
+        location:
+          $ref: '#/components/schemas/Location'
+      required:
+        - name
+        - birthday
+        - eye_color
+        - hair_color
+        - nationality
+        - location
+
+
+    Location:
+      type: object
+      properties:
+        x:
+          type: number
+          format: float
+        y:
+          type: number
+          format: double
+        name:
+          type: string
+      required:
+        - x
+        - y
+        - name
+
+
+    Difficulty:
+      description: Lab work difficulty
+      type: string
+      enum:
+        - NORMAL
+        - INSANE
+        - TERRIBLE
+
+    Color:
+      type: string
+      enum:
+        - GREEN
+        - BLACK
+        - YELLOW
+        - ORANGE
+        - WHITE
+        - BROWN
+
+    Country:
+      type: string
+      enum:
+        - GERMANY
+        - INDIA
+        - ITALY
+        - THAILAND
+
+    LabWorkId:
+      description: Unique identifier of lab work
+      type: integer
+      format: int64
+      minimum: 1
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: true
+      description: |
+        Page number of pagination
+      schema:
+        type: integer
+        minimum: 0
+
+    PageSize:
+      name: page_size
+      in: query
+      required: true
+      description: |
+        Page size of pagination
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+
+    LabWorkIdPath:
+      description: Unique identifier of lab work
+      in: path
+      name: id
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+      required: true
+    /1/awease/12312/?sort_by=id,name,author.location
+    LabWorkSortFields:
+      description: Array of fields, corresponding to sort labs
+      in: query
+      name: sort_by
+      required: false
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - id
+            - name
+            - coordinates.x
+            - coordinates.y
+            - creation_date
+            - minimal_point
+            - difficulty
+            - author.name
+            - author.birthday
+            - author.eye_color
+            - author.hair_color
+            - author.nationality
+            - author.location
+
+
+  responses:
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '409':
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
