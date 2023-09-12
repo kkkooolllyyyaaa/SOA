@@ -109,6 +109,8 @@ paths:
     get:
       description: |
         Request to get list of labs
+      tags:
+        - Lab
       parameters:
         - $ref: '#/components/parameters/LabWorkSortFields'
         - $ref: '#/components/parameters/Page'
@@ -131,6 +133,8 @@ paths:
     get:
       description: |
         Request to get sum of minimalPoint
+      tags:
+        - Operations
       operationId:
         getSumOfLabsMinimalPoint
       responses:
@@ -153,6 +157,8 @@ paths:
     get:
       description: |
         Request to get sum of minimalPoint
+      tags:
+        - Operations
       operationId:
         getRandomLabWithMaximumMinimalPointValue
       responses:
@@ -356,7 +362,7 @@ components:
         format: int64
         minimum: 1
       required: true
-    /1/awease/12312/?sort_by=id,name,author.location
+
     LabWorkSortFields:
       description: Array of fields, corresponding to sort labs
       in: query
