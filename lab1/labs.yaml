@@ -103,16 +103,21 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /api/v1/lab/list:
-    get:
+  /api/v1/lab/searches:
+    post:
       description: |
-        Request to get list of labs
+        Request to create search
       tags:
         - Lab
       parameters:
-        - $ref: '#/components/parameters/LabWorkSortFields'
         - $ref: '#/components/parameters/Page'
         - $ref: '#/components/parameters/PageSize'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabWorkSearch'
       responses:
         '200':
           description: |
@@ -176,6 +181,43 @@ paths:
 
 components:
   schemas:
+    LabWorkSearch:
+      type: object
+      properties:
+        sort_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabWorkPropertyName'
+        filters:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                $ref: '#/components/schemas/LabWorkPropertyName'
+              filter_value:
+                type: string
+      required:
+        - sort_by
+        - filters
+
+    LabWorkPropertyName:
+      type: string
+      enum:
+        - id
+        - name
+        - coordinates.x
+        - coordinates.y
+        - creation_date
+        - minimal_point
+        - difficulty
+        - author.name
+        - author.birthday
+        - author.eye_color
+        - author.hair_color
+        - author.nationality
+        - author.location
+
     LabWorkUpdateDto:
       type: object
       properties:
@@ -360,32 +402,6 @@ components:
         format: int64
         minimum: 1
       required: true
-
-    LabWorkSortFields:
-      description: Array of fields, corresponding to sort labs
-      in: query
-      name: sort_by
-      required: false
-      explode: true
-      schema:
-        type: array
-        items:
-          type: string
-          enum:
-            - id
-            - name
-            - coordinates.x
-            - coordinates.y
-            - creation_date
-            - minimal_point
-            - difficulty
-            - author.name
-            - author.birthday
-            - author.eye_color
-            - author.hair_color
-            - author.nationality
-            - author.location
-
 
   responses:
     '500':
