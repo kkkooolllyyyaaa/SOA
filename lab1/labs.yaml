@@ -9,7 +9,7 @@ servers:
     description: local
 
 paths:
-  /api/v1/labs:
+  /api/v1/lab:
     post:
       description: |
         Request to create new lab work
@@ -35,7 +35,7 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /api/v1/labs/{id}:
+  /api/v1/lab/{id}:
     get:
       description: |
         Request to get single lab by id
@@ -103,7 +103,7 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /api/v1/labs/list:
+  /api/v1/lab/list:
     get:
       description: |
         Request to get list of labs
@@ -127,7 +127,7 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /api/v1/labs/minimal-point/sum:
+  /api/v1/lab/minimal-point/sum:
     get:
       description: |
         Request to get sum of minimalPoint
@@ -151,7 +151,7 @@ paths:
           $ref: '#/components/responses/500'
 
 
-  /api/v1/labs/minimal-point/by-max-value:
+  /api/v1/lab/minimal-point/by-max-value:
     get:
       description: |
         Request to get random lab by max minimalPoint value

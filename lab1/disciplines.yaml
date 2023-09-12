@@ -60,7 +60,7 @@ components:
     LabWorkIdPath:
       description: Unique identifier of lab work
       in: path
-      name: id
+      name: labwork-id
       schema:
         type: integer
         format: int64
@@ -70,7 +70,7 @@ components:
     DisciplineIdPath:
       description: Unique identifier of discipline
       in: path
-      name: discipline_id
+      name: discipline-id
       schema:
         type: integer
         format: int64
