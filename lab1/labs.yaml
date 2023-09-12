@@ -197,12 +197,17 @@ components:
                 $ref: '#/components/schemas/LabWorkPropertyName'
               filter_value:
                 type: string
+                example: Vas*
+            required:
+              - name
+              - filter_value
       required:
         - sort_by
         - filters
 
     LabWorkPropertyName:
       type: string
+      example: name
       enum:
         - id
         - name
